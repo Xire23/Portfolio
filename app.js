@@ -2,32 +2,31 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-// Set the view engine to EJS
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+// Remove EJS configuration
+// app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, 'views'));
 
 // Static files (for CSS, JS, etc.)
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'views'))); // Add this line to serve HTML files
 
-// Route for the home page
+// Update routes to sendFile instead of render
 app.get('/', (req, res) => {
-    res.render('index'); // Renders index.ejs
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-// Routes for other pages
 app.get('/about', (req, res) => {
-    res.render('about');
+    res.sendFile(path.join(__dirname, 'views', 'about.html'));
 });
 
 app.get('/portfolio', (req, res) => {
-    res.render('portfolio');
+    res.sendFile(path.join(__dirname, 'views', 'portfolio.html'));
 });
 
 app.get('/contact', (req, res) => {
-    res.render('contact');
+    res.sendFile(path.join(__dirname, 'views', 'contact.html'));
 });
 
-// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
